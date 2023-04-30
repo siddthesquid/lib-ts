@@ -1,0 +1,27 @@
+{
+  "folders": [
+    {
+      "name": "@siddthesquid/prelude",
+      "path": "./lib/prelude"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "dist/": true,
+      "build/": true,
+      ".next/": true,
+      "out/": true,
+      "coverage/": true,
+      "tsconfig*.json*": true,
+      "jest.config.*": true,
+      ".eslintignore": true,
+      ".eslintrc.json": true,
+      ".prettierrc.json": true,
+      ".prettierignore": true,
+      "next.config.js": true,
+      "node_modules/": true,
+      "*.tsbuildinfo": true,
+      "next-env.d.ts": true
+    }
+  }
+}

@@ -1,0 +1,74 @@
+  prelude
+    Function/X,
+    Thunk,
+    Bytes,
+    Memory,
+    Num,
+    Error,
+    Codec,
+    Option,
+    Test,
+    Stream,
+
+  algorithms
+    Data,
+    Algorithm,
+
+  io
+    file,
+    log,
+    tty,
+    random,
+    clock,
+    http,
+    env
+    process
+
+  modules
+    Actor,
+    Cache,
+    Cli,
+    Config,
+
+  math
+    Crypto,
+    Data,
+    Matrix,
+    Poly,
+    Stat,
+    Fft,
+    Math,
+
+  workspace
+    version
+    git
+    publish
+    vscode
+    actions
+    dev
+    clean
+
+  infra
+    docker
+    kubernetes
+    terraform
+
+  deploy
+    pulsar
+    cassandra
+    mongo
+    parquet
+    s3
+    site
+
+  web
+    ui,
+    animation
+    viz,
+    canvas,
+
+  wasm
+    video,
+    audio,
+
+  mobile

@@ -1,0 +1,35 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "env": "envinfo",
+    "clean": "nx run-many --target=clean",
+    "wipe": "nx run-many --target=wipe && rimraf pnpm-lock.yaml && rimraf node_modules",
+    "generate": "nx run-many --target=generate",
+    "build": "nx affected --target=build",
+    "dev": "nx run-many --target=dev",
+    "test": "nx affected --target=test",
+    "format": "nx affected --target=format",
+    "lint": "nx affected --target=lint",
+    "docgen": "nx affected --target=docgen",
+    "commitlint": "npx commitlint --from origin/main --to HEAD --verbose",
+    "ci:commitlint": "npx commitlint --from origin/main --to HEAD --verbose",
+    "ci:version": "nx affected --target=ci:version",
+    "ci:generate": "nx affected --target=ci:generate",
+    "ci:build": "nx affected --target=ci:build",
+    "ci:test": "nx affected --target=ci:test",
+    "ci:lint": "nx affected --target=ci:lint",
+    "ci:publish": "nx affected --target=ci:publish"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.6.1",
+    "@commitlint/config-conventional": "^17.6.1",
+    "envinfo": "^7.8.1",
+    "nx": "15.9.2",
+    "rimraf": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
+  }
+}

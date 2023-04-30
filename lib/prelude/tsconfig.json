@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    // Typescript source code rules
+    "lib": ["ESNext", "DOM"],
+    "noLib": false,
+    "strict": true,
+    "allowUnreachableCode": false,
+    "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+
+    // Import rules
+    "baseUrl": "./src/",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "preserveSymlinks": true,
+    "skipLibCheck": true,
+
+    // What is generated during build
+    "module": "commonjs",
+    "target": "ES2020",
+    "moduleDetection": "force",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "noEmitOnError": true,
+
+    // Additional Emit options
+    "newLine": "LF",
+    "removeComments": false,
+    "stripInternal": true,
+    "isolatedModules": true,
+    "emitDecoratorMetadata": true,
+    "jsx": "preserve",
+
+    // JavaScript support
+    "allowJs": true,
+    "checkJs": false
+  },
+  "exclude": ["dist", "node_modules", "coverage", "out", "build"]
+}

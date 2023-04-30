@@ -1,0 +1,86 @@
+{
+  "$schema": "node_modules/nx/schemas/nx-schema.json",
+  "extends": "nx/presets/npm.json",
+  "affected": {
+    "defaultBase": "main"
+  },
+  "workspaceLayout": {
+    "appsDir": "app",
+    "libsDir": "lib"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "nx/tasks-runners/default",
+      "options": {
+        "cacheableOperations": [
+          "generate",
+          "build",
+          "test",
+          "lint",
+          "ci:generate",
+          "ci:build",
+          "ci:test",
+          "ci:lint"
+        ]
+      }
+    }
+  },
+  "namedInputs": {
+    "source": [
+      "{projectRoot}/src/**/*",
+      "{projectRoot}/package.json",
+      "{projectRoot}/tsconfig.*json"
+    ],
+    "excludeTest": [
+      "!{projectRoot}/**/*.(test|spec).[jt]sx?",
+      "!{projectRoot}/tests?/**/*"
+    ],
+    "generateInputs": [],
+    "extraBuildInputs": [],
+    "defaultTestInputs": [
+      "{projectRoot}/**/*.(test|spec).[jt]sx?",
+      "{projectRoot}/tests?/**/*",
+      "{projectRoot}/jest.config.js"
+    ],
+    "extraTestInputs": [],
+    "defaultLintInputs": [
+      "{projectRoot}/.eslintrc.*",
+      "{projectRoot}/tsconfig.*json",
+      "{projectRoot}/.prettier*"
+    ],
+    "extraLintInputs": []
+  },
+  "targetDefaults": {
+    "build": {
+      "dependsOn": ["generate", "^build"],
+      "inputs": ["source", "excludeTest", "extraBuildInputs"],
+      "outputs": ["{projectRoot}/dist/**/*", "{projectRoot}/.tsbuildinfo"]
+    },
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["source", "defaultTestInputs", "extraTestInputs"],
+      "outputs": ["{projectRoot}/coverage/**/*"]
+    },
+    "lint": {
+      "dependsOn": ["build"],
+      "inputs": ["source", "defaultLintInputs", "extraLintInputs"]
+    },
+    "ci:build": {
+      "dependsOn": ["ci:generate", "^ci:build"],
+      "inputs": ["source", "extraBuildInputs", "excludeTest"],
+      "outputs": ["{projectRoot}/dist/**/*", "{projectRoot}/.tsbuildinfo"]
+    },
+    "ci:test": {
+      "dependsOn": ["ci:build"],
+      "inputs": ["source", "defaultTestInputs", "extraTestInputs"],
+      "outputs": ["{projectRoot}/coverage/**/*"]
+    },
+    "ci:lint": {
+      "dependsOn": ["ci:build"],
+      "inputs": ["source", "defaultLintInputs", "extraLintInputs"]
+    },
+    "ci:publish": {
+      "dependsOn": ["^publish"]
+    }
+  }
+}
