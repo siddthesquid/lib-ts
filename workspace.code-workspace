@@ -3,6 +3,18 @@
     {
       "name": "@siddthesquid/prelude",
       "path": "./lib/prelude"
+    },
+    {
+      "name": "@siddthesquid/io",
+      "path": "./lib/io"
+    },
+    {
+      "name": "@siddthesquid/crypto",
+      "path": "./lib/crypto"
+    },
+    {
+      "name": "@siddthesquid/examples",
+      "path": "./app/examples"
     }
   ],
   "settings": {
@@ -15,7 +27,7 @@
       "tsconfig*.json*": true,
       "jest.config.*": true,
       ".eslintignore": true,
-      ".eslintrc.json": true,
+      ".eslintrc.json": false,
       ".prettierrc.json": true,
       ".prettierignore": true,
       "next.config.js": true,
