@@ -1,0 +1,341 @@
+Function
+
+  pipe
+  flow
+
+  as
+  sync
+  id
+  declare
+  tap
+  provide
+  compose
+
+  debugWith
+  debug
+
+  then
+  catch
+  finally
+  succeed
+  fail
+
+  all
+  some
+  first
+  any
+  serialAny
+  serialAll
+  serialSome
+
+Object
+
+  map
+  fold
+
+Union
+
+  throwIfUndefined
+  throwIfNull
+  throwIfNullOrUndefined
+  catch
+  catchSome
+
+
+Bytes
+
+  // Definitions
+  bitmap
+  utf8
+  base64
+  base58
+  hex
+  buffer
+  bigint
+
+  // Constructors
+  <string> -> utf8
+  <Buffer>
+  alloc
+
+  // Transformers
+  reversedBits
+  shiftLeft
+  shiftRight
+  xor
+  negate
+  and
+  or
+  setBit
+  clearBit
+  toggleBit
+
+  replace
+
+  reversedBytes
+
+  slice
+
+  prependLeading
+  appendTrailing
+  trimLeft
+  trimRight
+  padLeft
+  padRight
+  writeAt
+  zero
+
+  // Reducers
+  startsWith
+  endsWith
+
+  copy
+  find
+  match
+  substring
+
+
+  // Displays
+  table
+    columnHeaders
+    rowHeaders
+    endian
+    word
+
+
+
+Codec
+
+  Struct
+
+  Array
+
+  Rlp
+
+  Line
+
+  Json
+
+  Yaml
+
+Crypto
+
+  Hashers
+
+    { hash: Bytes -> Buffer }
+
+    md5
+    sha1_256
+    sha2
+    sha3
+    crc32
+
+  Signers
+
+    {
+      sign: { },
+      verify: { }
+    }
+
+    ed25519
+    secp256k1
+    p256
+    p384
+    p521
+
+  Codecs
+
+  Flow
+
+  Eth
+
+
+
+Iterator
+
+  // Definitions
+  IteratorLike = Iteratable | Iterator
+  isIterable
+  isIterator
+  asIterator
+
+  // Constructors
+  generate
+  constant
+  repeat
+  range
+  rangeN
+
+  // Transformers
+  map
+  filter
+  flatMap
+  flatten
+
+  chunk
+  chunkUntil
+  chunkWhile
+  prepend
+  append
+  until
+  while
+
+  mux
+  concat
+  zip
+  zipOrElse
+  zipLeft
+  zipLeftOrElse
+  zipRight
+  zipRightOrElse
+  enumerate
+
+  // Reducers
+  reduce
+  drop
+  count
+  join
+  head
+  tail
+  collect
+  take
+  forEach
+
+Data
+
+  Array
+  Heap
+  HashMap
+  SortedMap
+
+Cli
+
+  Command
+    name
+    description
+    options: Option[]
+    arguments: Argument[]
+    subcommands: { string : Command }
+    help: { ... }
+  Argument
+    name
+    description
+    decode: string => T
+  Option
+    short
+    long
+    name
+    description
+    decode : string => T
+  Parameter
+
+  withOptions
+  withArguments
+  withSubCommands
+
+  // Common options
+  help
+  version
+  log-level
+  quiet
+  output
+  dry-run
+
+
+
+Io
+
+  Program
+
+    literal
+    sync
+    async
+
+    repeat
+    forever
+    untilSuccessful
+    whileSuccessful
+
+    run : Program -> Thread
+    runInterruptible : Program -> InterruptibleThread
+
+  Events
+
+  Controller
+
+  Env
+
+    get
+    getOrElse
+    set
+
+  Fs
+
+    find
+    write
+      overwrite: bool
+
+  Process
+
+    spawn : ProcessParams
+      kill
+      write
+
+      onDisconnect
+      onExit
+
+  Http
+
+    fetch
+
+
+  Clock
+
+    Year
+    Month
+    Day
+    Hour
+    Minute
+    Second
+    Millisecond
+    Musecond
+    Nanosecond
+
+    // Schedule
+
+  Log
+
+    trace
+    debug
+    info
+    notice
+    warn
+    error
+    fatal
+
+    configureGlobal
+
+    create
+
+  Tty
+
+
+
+
+Tools
+
+  Workspace
+
+  Dev
+
+Ui
+
+  Controllers
+
+  Designs
+
+  Layouts
+
+  Boxes
+
+  Text
