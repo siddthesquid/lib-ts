@@ -1,5 +1,7 @@
 const create = <T>(next: () => IteratorResult<T>) => ({ next })
 
+const generate
+
 // const createWhile = <T>(next: () => IteratorResult<T>, predicate: (x: T) => boolean) => {
 //   const iterator = create(next)
 //   const nextWhile = () => {

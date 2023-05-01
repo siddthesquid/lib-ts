@@ -26,3 +26,4 @@ const Definitions = {
 }
 
 export { Definitions }
+export type { IteratorResultLike, IteratorLike }

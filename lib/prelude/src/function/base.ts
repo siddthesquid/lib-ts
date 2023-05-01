@@ -24,6 +24,8 @@ const provide =
   <U>(fn: (value: T) => U) =>
     fn(value)
 
+const stateful = <T, U>(fn: () => (_: T) => U) => fn()
+
 const compose =
   <U, V>(fn1: (value: U) => V) =>
   <T>(fn0: (value: T) => U) =>
@@ -47,6 +49,7 @@ const Base = {
   tap,
   provide,
   compose,
+  stateful,
   debug,
   debugWith,
 }

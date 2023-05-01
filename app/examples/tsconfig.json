@@ -18,7 +18,6 @@
     "experimentalDecorators": true,
 
     // Import rules
-    "baseUrl": "./src/",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,

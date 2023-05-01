@@ -1,4 +1,3 @@
-// reduce an iterable to a single value
 const reduce =
   <State, Value>(
     initial: State,
