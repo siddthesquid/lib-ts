@@ -28,10 +28,14 @@ Function
   serialAll
   serialSome
 
-Object
+Dict
 
   map
   fold
+  keys
+  values
+  reduceKeys
+  reduceValues
 
 Union
 
@@ -40,6 +44,8 @@ Union
   throwIfNullOrUndefined
   catch
   catchSome
+  else
+
 
 
 Bytes
@@ -160,6 +166,7 @@ Iterator
   asIterator
 
   // Constructors
+  create
   generate
   constant
   repeat
@@ -258,6 +265,8 @@ Io
 
     run : Program -> Thread
     runInterruptible : Program -> InterruptibleThread
+
+  Actor
 
   Events
 
