@@ -9,6 +9,7 @@ Function
   declare
   tap
   provide
+  stateful
   compose
 
   debugWith
@@ -39,14 +40,13 @@ Dict
 
 Union
 
+  throw
   throwIfUndefined
   throwIfNull
   throwIfNullOrUndefined
   catch
   catchSome
   else
-
-
 
 Bytes
 
@@ -272,6 +272,9 @@ Io
 
   Controller
 
+  Stream
+  - these are like asynchronous processes th
+
   Env
 
     get
@@ -336,6 +339,12 @@ Tools
   Workspace
 
   Dev
+
+  Version
+
+  Git
+
+  Clean
 
 Ui
 

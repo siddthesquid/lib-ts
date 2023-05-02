@@ -1,16 +1,71 @@
-const create = <T>(next: () => IteratorResult<T>) => ({ next })
+import { Result } from "./result"
 
-const generate
+const create = <T>(next: () => IteratorResult<T>): Iterator<T> => ({ next })
 
-// const createWhile = <T>(next: () => IteratorResult<T>, predicate: (x: T) => boolean) => {
-//   const iterator = create(next)
-//   const nextWhile = () => {
-//     const result = iterator.next()
-//     if (result.done) return result
-//     if (predicate(result.value)) return result
-//     return { done: true, value: undefined }
-//   }
+const generate = <T>(fn: () => T) => create(() => Result.submit(fn()))
 
-const Constructors = { create }
+type ConstantOptions = {
+  count?: number
+}
+
+const ConstantDefaults: ConstantOptions = {}
+
+const constant = <T>(value: T, options: ConstantOptions = ConstantDefaults) => {
+  if (options.count === undefined) return create(() => Result.submit(value))
+  let remaining = options.count
+  return create(() => {
+    if (remaining === 0) return Result.stop
+    remaining -= 1
+    return Result.submit(value)
+  })
+}
+
+const empty = create<never>(() => Result.stop)
+
+type ToOptions = {
+  start?: number
+  step?: number
+}
+
+const ToDefaults = {
+  start: 0,
+  step: 1,
+}
+
+const to = (end: number, options: ToOptions = ToDefaults) => {
+  const { start, step } = { ...ToDefaults, ...options }
+  let current = start
+  return create(() => {
+    if (current > end) return Result.stop
+    const value = current
+    current += step
+    return Result.submit(value)
+  })
+}
+
+const until = (end: number, options: ToOptions = ToDefaults) =>
+  to(end - 1, options)
+
+type FromOptions = {
+  end?: number
+  step?: number
+}
+
+const FromDefaults = {
+  step: 1,
+}
+
+const from = (start: number, options: FromOptions = FromDefaults) => {
+  const { end, step } = { ...FromDefaults, ...options }
+  let current = start
+  return create(() => {
+    if (end !== undefined && current > end) return Result.stop
+    const value = current
+    current += step
+    return Result.submit(value)
+  })
+}
+
+const Constructors = { create, generate, constant, empty, to, until, from }
 
 export { Constructors }
