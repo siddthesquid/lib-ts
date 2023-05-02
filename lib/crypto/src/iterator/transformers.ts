@@ -1,3 +1,0 @@
-const Transformers = {}
-
-export { Transformers }

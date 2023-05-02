@@ -112,9 +112,19 @@ Bytes
 
 Codec
 
+  Buffer
+
   Struct
 
   Array
+
+  Tuple
+
+  Number
+
+  Bool
+
+  String
 
   Rlp
 
@@ -123,6 +133,8 @@ Codec
   Json
 
   Yaml
+
+  Table
 
 Crypto
 
