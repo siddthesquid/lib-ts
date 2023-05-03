@@ -1,12 +1,9 @@
 import { Iter, X } from "@siddthesquid/prelude"
 
 const program = X.pipe(
-  [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-  ],
+  [[1, 2, 3], [4, 5, 6], [2], [], [7, 8, 9]],
   Iter.flatten,
+  Iter.flatMap((x) => [x, x + 1]),
   Iter.filter((x) => x % 2 === 0),
   Iter.map((x) => x * 2),
   Iter.map((x) => x.toFixed(2)),
@@ -15,8 +12,20 @@ const program = X.pipe(
 
 console.log(program)
 
-const a = Iter.flatten([
+const someArr = [9, 8, 7]
+
+const program2 = X.pipe(
   [1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
-])
+  X.flow(
+    Iter.precat(someArr),
+    Iter.precatMany([[7]]),
+    Iter.concat([4, 5, 6]),
+    Iter.concatMany([someArr, someArr, someArr]),
+    Iter.filter((x) => x < 5),
+    Iter.until((x) => x > 3),
+    Iter.take(2),
+    Iter.prepend(0),
+    Iter.append(30),
+  ),
+  X.flow(Iter.take(2), X.tap(Iter.forEach((x) => console.log(x)))),
+)

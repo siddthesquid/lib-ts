@@ -20,6 +20,8 @@ const constant = <T>(value: T, options: ConstantOptions = ConstantDefaults) => {
   })
 }
 
+const single = <T>(value: T) => constant(value, { count: 1 })
+
 const empty = create<never>(() => Result.stop)
 
 type ToOptions = {
@@ -66,6 +68,15 @@ const from = (start: number, options: FromOptions = FromDefaults) => {
   })
 }
 
-const Constructors = { create, generate, constant, empty, to, until, from }
+const Constructors = {
+  create,
+  generate,
+  constant,
+  single,
+  empty,
+  to,
+  until,
+  from,
+}
 
 export { Constructors }
