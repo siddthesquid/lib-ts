@@ -156,21 +156,21 @@ const while_ =
     })
   }
 
-const chunk =
-  <T>(size: number) =>
-  (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
-    const iter = Definitions.asIterator(iterator)
-    return Constructors.create(() => {
-      let count = 0
-      return Constructors.create(() => {
-        if (count >= size) {
-          return Result.stop
-        }
-        count += 1
-        return iter.next()
-      })
-    })
-  }
+// const chunk =
+//   <T>(size: number) =>
+//   (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
+//     const iter = Definitions.asIterator(iterator)
+//     return Constructors.create(() => {
+//       let count = 0
+//       return Constructors.create(() => {
+//         if (count >= size) {
+//           return Result.stop
+//         }
+//         count += 1
+//         return iter.next()
+//       })
+//     })
+//   }
 
 // const chunkWhile = <T>(fn: (value: T) => boolean) => (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
 //   const iter = Definitions.asIterator(iterator)

@@ -22,7 +22,7 @@ const program2 = X.pipe(
     Iter.concat([4, 5, 6]),
     Iter.concatMany([someArr, someArr, someArr]),
     // Iter.filter((x) => x < 7),
-    // Iter.until((x) => x > 3),
+    Iter.until((x) => x === 2),
     Iter.take(20),
     Iter.prepend(0),
     Iter.append(30),
