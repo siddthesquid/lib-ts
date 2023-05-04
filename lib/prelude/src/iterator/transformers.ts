@@ -132,16 +132,19 @@ const untilWith =
     return concat(until(fn)(iter))(iter)
   }
 
-const take = (n: number) =>
-  untilWith(
-    (() => {
-      let count = 0
-      return () => {
-        count += 1
-        return count > n
+const limit =
+  (n: number) =>
+  <T>(iterator: IteratorLike<T>): Iterator<T> => {
+    const iter = Definitions.asIterator(iterator)
+    let count = 0
+    return Constructors.create(() => {
+      if (count >= n) {
+        return Result.stop
       }
-    })(),
-  )
+      count += 1
+      return iter.next()
+    })
+  }
 
 const while_ =
   <T>(fn: (value: T) => boolean) =>
@@ -150,6 +153,22 @@ const while_ =
     return Constructors.create(() => {
       const next = iter.next()
       return next.done || !fn(next.value) ? Result.stop : next
+    })
+  }
+
+const chunk =
+  <T>(size: number) =>
+  (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
+    const iter = Definitions.asIterator(iterator)
+    return Constructors.create(() => {
+      let count = 0
+      return Constructors.create(() => {
+        if (count >= size) {
+          return Result.stop
+        }
+        count += 1
+        return iter.next()
+      })
     })
   }
 
@@ -193,7 +212,7 @@ const Transformers = {
   prepend,
   until,
   untilWith,
-  take,
+  take: limit,
   while: while_,
 }
 
