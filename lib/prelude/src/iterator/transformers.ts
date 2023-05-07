@@ -14,9 +14,11 @@
   append
 
   until
+  untilWith
   while
   chunk
   chunkUntil
+  chunkUntilWith
   chunkWhile
 
   mux
@@ -28,31 +30,42 @@
   zipRightOrElse
   enumerate
 */
+import { Bool } from "../bool"
 import { X } from "../function"
 
 import { Constructors } from "./constructors"
 import { Definitions, IteratorLike } from "./definitions"
 import { Result } from "./result"
 
-const map =
-  <A, B>(fn: (value: A) => B) =>
-  (iterator: IteratorLike<A>): Iterator<B> => {
-    const iter = Definitions.asIterator(iterator)
-    return Constructors.create(X.flow(iter.next, Result.map(fn)))
-  }
+// type CreateIterReturn<B extends Iterator<any>> = B extends Iterator<
 
-const filter =
-  <A>(fn: (value: A) => boolean) =>
-  (iterator: IteratorLike<A>): Iterator<A> => {
-    const iter = Definitions.asIterator(iterator)
-    return Constructors.create(() => {
+const createIterTransformer =
+  <A, B>(fn: (iter: Iterator<A>) => Iterator<B>) =>
+  (iterator: IteratorLike<A>) =>
+    X.pipe(iterator, Definitions.asIterator, fn)
+
+const map = <A, B>(fn: (value: A) => B) =>
+  createIterTransformer((iter: Iterator<A>) => {
+    const nextFn = X.flow(iter.next, Result.map(fn))
+    return Constructors.create(nextFn)
+  })
+
+const tap = <A>(fn: (value: A) => any) =>
+  createIterTransformer((iter: Iterator<A>) => {
+    const nextFn = X.flow(iter.next, X.tap(Result.map(fn)))
+    return Constructors.create(nextFn)
+  })
+
+const filter = <A>(fn: (value: A) => boolean) =>
+  createIterTransformer((iter: Iterator<A>) =>
+    Constructors.create(() => {
       let next = iter.next()
       while (!next.done && !fn(next.value)) {
         next = iter.next()
       }
       return next
-    })
-  }
+    }),
+  )
 
 // from https://stackoverflow.com/a/61507516/1521496
 type DeIterator<T extends IteratorLike<any>> = T extends IteratorLike<infer U>
@@ -86,10 +99,8 @@ const flatten = <T extends IteratorLike<IteratorLike<any>>>(
 const flatMap = <A, B>(fn: (value: A) => IteratorLike<B>) =>
   X.flow(map(fn), flatten)
 
-const concat =
-  <T>(other: IteratorLike<T>) =>
-  (iterator: IteratorLike<T>) => {
-    const iter = Definitions.asIterator(iterator)
+const concat = <T>(other: IteratorLike<T>) =>
+  createIterTransformer((iter: Iterator<T>) => {
     const otherIter = Definitions.asIterator(other)
     let current = iter
     return Constructors.create(() => {
@@ -100,7 +111,7 @@ const concat =
       }
       return next
     })
-  }
+  })
 
 const concatMany = X.flow(flatten, concat)
 
@@ -109,28 +120,11 @@ const append = X.flow(Constructors.single, concat)
 const precat =
   <T>(other: IteratorLike<T>) =>
   (iterator: IteratorLike<T>) =>
-    concat(iterator)(other)
+    X.pipe(other, concat(iterator))
 
 const precatMany = X.flow(flatten, precat)
 
 const prepend = X.flow(Constructors.single, precat)
-
-const until =
-  <T>(fn: (value: T) => boolean) =>
-  (iterator: IteratorLike<T>): Iterator<T> => {
-    const iter = Definitions.asIterator(iterator)
-    return Constructors.create(() => {
-      const next = iter.next()
-      return next.done || fn(next.value) ? Result.stop : next
-    })
-  }
-
-const untilWith =
-  <T>(fn: (value: T) => boolean) =>
-  (iterator: IteratorLike<T>): Iterator<T> => {
-    const iter = Definitions.asIterator(iterator)
-    return concat(until(fn)(iter))(iter)
-  }
 
 const limit =
   (n: number) =>
@@ -146,15 +140,57 @@ const limit =
     })
   }
 
-const while_ =
-  <T>(fn: (value: T) => boolean) =>
-  (iterator: IteratorLike<T>): Iterator<T> => {
-    const iter = Definitions.asIterator(iterator)
+const until = <T>(fn: (value: T) => boolean) =>
+  createIterTransformer((iter: Iterator<T>) => {
+    let done = false
     return Constructors.create(() => {
+      if (done) {
+        return Result.stop
+      }
       const next = iter.next()
-      return next.done || !fn(next.value) ? Result.stop : next
+      if (next.done || fn(next.value)) {
+        done = true
+        return Result.stop
+      }
+      return next
     })
-  }
+  })
+
+// TODO: Should share code with until
+const untilWith = <T>(fn: (value: T) => boolean) =>
+  createIterTransformer((iter: Iterator<T>) => {
+    let done = false
+    return Constructors.create(() => {
+      if (done) {
+        return Result.stop
+      }
+      const next = iter.next()
+      if (next.done || fn(next.value)) {
+        done = true
+      }
+      return next
+    })
+  })
+
+const while_ = <T>(fn: (value: T) => boolean) => until(X.flow(fn, Bool.negate))
+
+// chunk should take an IteratorLike<T> and return an Iterator<Iterator<T>>,
+// where each inner iterator is of max length `size`
+// const chunk =
+//   (size: number) =>
+//   <T>(iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
+//     const iter = Definitions.asIterator(iterator)
+//     return Constructors.create(() => {
+//       let count = 0
+//       return Constructors.create(() => {
+//         if (count >= size) {
+//           return Result.stop
+//         }
+//         count += 1
+//         return iter.next()
+//       })
+//     })
+//   }
 
 // const chunk =
 //   <T>(size: number) =>
@@ -201,6 +237,7 @@ const while_ =
 
 const Transformers = {
   map,
+  tap,
   filter,
   flatten,
   flatMap,
@@ -210,9 +247,9 @@ const Transformers = {
   precat,
   precatMany,
   prepend,
+  limit,
   until,
   untilWith,
-  take: limit,
   while: while_,
 }
 
