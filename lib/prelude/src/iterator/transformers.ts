@@ -50,12 +50,6 @@ const map = <A, B>(fn: (value: A) => B) =>
     return Constructors.create(nextFn)
   })
 
-const tap = <A>(fn: (value: A) => any) =>
-  createIterTransformer((iter: Iterator<A>) => {
-    const nextFn = X.flow(iter.next, X.tap(Result.map(fn)))
-    return Constructors.create(nextFn)
-  })
-
 const filter = <A>(fn: (value: A) => boolean) =>
   createIterTransformer((iter: Iterator<A>) =>
     Constructors.create(() => {
