@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     // Typescript source code rules
-    "lib": ["ESNext", "DOM"],
+    "lib": ["ESNext"],
     "noLib": false,
     "strict": true,
     "allowUnreachableCode": false,
