@@ -38,6 +38,10 @@ const forEach =
     }
   }
 
+const collect = <Value>(iter: Iterator<Value>) => {
+  const values: Value[] = []
+  forEach((value) => values.push(value))(iter)
+
 const Reducers = {
   reduce,
   count,

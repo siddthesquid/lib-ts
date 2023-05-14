@@ -1,11 +1,11 @@
-import { Base } from "./base"
 import { Compose } from "./compose"
-import { Promise_ } from "./promise"
+import { Constructors } from "./constructors"
+import { Transformers } from "./transformers"
 
 const X = {
-  ...Base,
-  ...Promise_,
   ...Compose,
+  ...Constructors,
+  ...Transformers,
 }
 
 export { X }

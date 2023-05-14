@@ -1,3 +1,0 @@
-const Stream = {}
-
-export { Stream }

@@ -1,9 +1,9 @@
 import { Constructors } from "./constructors"
 import { Transformers } from "./transformers"
 
-const Promise_ = {
+const Prom = {
   ...Constructors,
   ...Transformers,
 }
 
-export { Promise_ }
+export { Prom }

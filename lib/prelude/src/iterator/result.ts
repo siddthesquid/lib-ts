@@ -1,21 +1,17 @@
+import { X } from ".."
+
 const stop: IteratorResult<never> = { value: undefined, done: true }
 
 const submit = <T>(value: T): IteratorResult<T> => ({ value, done: false })
 
-const map =
-  <A, B>(fn: (value: A) => B) =>
-  (next: IteratorResult<A>): IteratorResult<B> =>
-    next.done ? stop : submit(fn(next.value))
-
-const orElse =
-  <A>(fn: () => A) =>
-  (next: IteratorResult<A>): IteratorResult<A> =>
-    next.done ? submit(fn()) : next
-
 const fold =
-  <A, B>(fnIfDone: () => B, fnIfNotDone: (value: A) => B) =>
+  <A, B>(elseIfDone: B, fnIfNotDone: (value: A) => B) =>
   (next: IteratorResult<A>): B =>
-    next.done ? fnIfDone() : fnIfNotDone(next.value)
+    next.done ? elseIfDone : fnIfNotDone(next.value)
+
+const map = <A, B>(fn: (value: A) => B) => fold(stop, X.flow(fn, submit))
+
+const orElse = <A>(fn: () => A) => fold(submit(fn()), X.id)
 
 const Result = { stop, submit, map, orElse, fold }
 
