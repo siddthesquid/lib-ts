@@ -13,8 +13,8 @@ const declare =
     value
 
 const tap =
-  <T>(fn: (value: T) => any) =>
-  (value: T): T => {
+  <T = never>(fn: (value: T) => any) =>
+  <T2 extends Parameters<typeof fn>[0]>(value: T2): T2 => {
     fn(value)
     return value
   }
@@ -32,12 +32,8 @@ const compose =
   (value: T) =>
     fn1(fn0(value))
 
-const debugWith =
-  (tag: string = "DEBUG: ") =>
-  <T>(value: T) =>
-    tap<T>((value_) =>
-      console.log(`${tag || ""}${JSON.stringify(value_, null, 2)}`),
-    )(value)
+const debugWith = (tag: string = "DEBUG: ") =>
+  tap((value_) => console.log(`${tag || ""}${JSON.stringify(value_, null, 2)}`))
 
 const debug = debugWith("")
 
