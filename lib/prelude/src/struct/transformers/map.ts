@@ -1,0 +1,1 @@
+type MappedStruct<Struct, Fn> = {

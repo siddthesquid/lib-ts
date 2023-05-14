@@ -1,0 +1,3 @@
+const Tuple = {}
+
+export { Tuple }

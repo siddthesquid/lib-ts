@@ -17,9 +17,6 @@
   untilWith
   while
   chunk
-  chunkUntil
-  chunkUntilWith
-  chunkWhile
 
   mux
   zip
@@ -36,8 +33,6 @@ import { X } from "../function"
 import { Constructors } from "./constructors"
 import { Definitions, IteratorLike } from "./definitions"
 import { Result } from "./result"
-
-// type CreateIterReturn<B extends Iterator<any>> = B extends Iterator<
 
 const createIterTransformer =
   <A, B>(fn: (iter: Iterator<A>) => Iterator<B>) =>
@@ -168,70 +163,19 @@ const untilWith = <T>(fn: (value: T) => boolean) =>
 
 const while_ = <T>(fn: (value: T) => boolean) => until(X.flow(fn, Bool.negate))
 
-// chunk should take an IteratorLike<T> and return an Iterator<Iterator<T>>,
-// where each inner iterator is of max length `size`
-// const chunk =
-//   (size: number) =>
-//   <T>(iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
-//     const iter = Definitions.asIterator(iterator)
-//     return Constructors.create(() => {
-//       let count = 0
-//       return Constructors.create(() => {
-//         if (count >= size) {
-//           return Result.stop
-//         }
-//         count += 1
-//         return iter.next()
-//       })
-//     })
-//   }
-
-// const chunk =
-//   <T>(size: number) =>
-//   (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
-//     const iter = Definitions.asIterator(iterator)
-//     return Constructors.create(() => {
-//       let count = 0
-//       return Constructors.create(() => {
-//         if (count >= size) {
-//           return Result.stop
-//         }
-//         count += 1
-//         return iter.next()
-//       })
-//     })
-//   }
-
-// const chunkWhile = <T>(fn: (value: T) => boolean) => (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
-//   const iter = Definitions.asIterator(iterator)
-//   return Constructors.create(() => {
-//     let next = iter.next()
-//     if (next.done) {
-//       return Result.stop
-//     }
-//     const chunk = Constructors.single(next.value)
-//     while (!next.done && fn(next.value)) {
-//       next = iter.next()
-//       if (!next.done) {
-//         chunk.append(next.value)
-//       }
-//     }
-//     return chunk
-//   })
-// }
-
-// const chunk = <T>(size: number) => (iterator: IteratorLike<T>): Iterator<Iterator<T>> => {
-//   const iter = Definitions.asIterator(iterator)
-//   return Constructors.create(() => {
-//     let count = 0
-//     return Constructors.create(() => {
-//     })
-//   })
-// }
+const chunk = <T>(transform: (iterator: IteratorLike<T>) => Iterator<T>) =>
+  createIterTransformer((iter: Iterator<T>) =>
+    Constructors.create(() => {
+      const anyNext = iter.next()
+      if (anyNext.done) {
+        return Result.stop
+      }
+      return Result.submit(X.pipe(iter, prepend(anyNext.value), transform))
+    }),
+  )
 
 const Transformers = {
   map,
-  tap,
   filter,
   flatten,
   flatMap,
@@ -245,6 +189,7 @@ const Transformers = {
   until,
   untilWith,
   while: while_,
+  chunk,
 }
 
 export { Transformers }

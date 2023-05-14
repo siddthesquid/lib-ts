@@ -1,0 +1,3 @@
+const Bytes = {}
+
+export { Bytes }

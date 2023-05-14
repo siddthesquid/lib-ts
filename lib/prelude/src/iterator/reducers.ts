@@ -1,9 +1,9 @@
 const reduce =
-  <State, Value>(
+  <State, Value_>(
     initial: State,
-    reducer: (state: State, value: Value) => State,
+    reducer: (state: State, value: Value_) => State,
   ) =>
-  (iter: Iterator<Value>): State => {
+  <Value extends Value_>(iter: Iterator<Value>): State => {
     let state = initial
     let result = iter.next()
     while (!result.done) {
@@ -13,8 +13,7 @@ const reduce =
     return state
   }
 
-const count = <Value>(iter: Iterator<Value>) =>
-  reduce(0, (currentCount) => currentCount + 1)(iter)
+const count = reduce(0, (currentCount) => currentCount + 1)
 
 const join =
   (seperator: string) =>

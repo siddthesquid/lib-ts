@@ -1,0 +1,3 @@
+const Str = {}
+
+export { Str }

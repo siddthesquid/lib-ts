@@ -12,6 +12,11 @@ const orElse =
   (next: IteratorResult<A>): IteratorResult<A> =>
     next.done ? submit(fn()) : next
 
-const Result = { stop, submit, map, orElse }
+const fold =
+  <A, B>(fnIfDone: () => B, fnIfNotDone: (value: A) => B) =>
+  (next: IteratorResult<A>): B =>
+    next.done ? fnIfDone() : fnIfNotDone(next.value)
+
+const Result = { stop, submit, map, orElse, fold }
 
 export { Result }

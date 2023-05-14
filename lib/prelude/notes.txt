@@ -25,16 +25,13 @@ Function
   some
   first
   any
-  serialAny
-  serialAll
-  serialSome
 
 Dict
 
   map
-  fold
   keys
   values
+  reduce
   reduceKeys
   reduceValues
 

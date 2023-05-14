@@ -18,7 +18,6 @@ const program2 = X.pipe(
   [1, 2, 3],
   X.flow(
     Iter.precat(someArr),
-    Iter.tap((x) => console.log(`yo ${x}`)),
     Iter.precatMany([[7]]),
     Iter.concat([4, 5, 6]),
     Iter.concatMany([someArr, someArr, someArr]),
@@ -26,7 +25,15 @@ const program2 = X.pipe(
     Iter.untilWith((x) => x === 2),
     Iter.prepend(0),
     Iter.append(30),
-    Iter.while((x) => x !== 1),
+    Iter.chunk(Iter.untilWith((x) => x < 7)),
   ),
-  X.flow(X.tap(Iter.forEach((x) => console.log(x)))),
+  X.flow(
+    Iter.map(Iter.reduce(0, (acc, x: number) => acc + x)),
+    Iter.forEach((x) => console.log(x)),
+  ),
 )
+
+/*
+until x < 7
+0, 7, 9, 8, 7, 1, 2, 39
+*/

@@ -51,6 +51,10 @@
       {
         "selector": "objectLiteralProperty",
         "format": null
+      },
+      {
+        "selector": "typeParameter",
+        "trailingUnderscore": "allow"
       }
     ]
   },

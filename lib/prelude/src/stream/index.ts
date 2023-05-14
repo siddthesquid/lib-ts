@@ -1,0 +1,3 @@
+const Stream = {}
+
+export { Stream }

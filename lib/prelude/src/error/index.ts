@@ -1,0 +1,3 @@
+const Err = {}
+
+export { Err }
