@@ -9,16 +9,10 @@ type FoldParams<Result> = {
   fnIfTrue: () => Result
 }
 
-const fold =
-  <Result>({ fnIfFalse, fnIfTrue }: FoldParams<Result>) =>
-  (value: boolean) =>
-    value ? fnIfTrue() : fnIfFalse()
-
 const Transformers = {
   true: true_,
   false: false_,
   negate,
-  fold,
 }
 
 export { Transformers }

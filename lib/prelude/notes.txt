@@ -189,8 +189,6 @@ Iterator
   flatten
 
   chunk
-  chunkUntil
-  chunkWhile
   prepend
   append
   until

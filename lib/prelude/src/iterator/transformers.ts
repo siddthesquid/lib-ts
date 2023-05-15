@@ -20,6 +20,7 @@
 
   mux
   zip
+  zipMap
   zipOrElse
   zipLeft
   zipLeftOrElse
@@ -37,7 +38,20 @@ import { Result } from "./result"
 const createIterTransformer =
   <A, B>(fn: (iter: Iterator<A>) => Iterator<B>) =>
   (iterator: IteratorLike<A>) =>
-    X.pipe(iterator, Definitions.asIterator, fn)
+    X.pipe(iterator, Definitions.castIterator, fn)
+
+type ResultFnParamToIteratorLike<
+  Fn extends (next: IteratorResult<any>) => IteratorResult<any>,
+> = Fn extends (next: IteratorResult<infer P>) => any ? IteratorLike<P> : never
+
+const _createTransformer =
+  <A, B>(fn: (next: IteratorResult<A>) => IteratorResult<B>) =>
+  <A2 extends ResultFnParamToIteratorLike<typeof fn>>(
+    iterator: A2,
+  ): Iterator<B> =>
+    Constructors.create(() =>
+      X.pipe(iterator, Definitions.castIterator, (iter) => iter.next(), fn),
+    )
 
 const map = <A, B>(fn: (value: A) => B) =>
   createIterTransformer((iter: Iterator<A>) => {
@@ -64,9 +78,9 @@ type DeIterator<T extends IteratorLike<any>> = T extends IteratorLike<infer U>
 const flatten = <T extends IteratorLike<IteratorLike<any>>>(
   iterator: T,
 ): Iterator<DeIterator<DeIterator<T>>> => {
-  const iter = Definitions.asIterator(iterator)
+  const iter = Definitions.castIterator(iterator)
   const _nextInnerIter = () =>
-    X.pipe(iter.next(), Result.map(Definitions.asIterator))
+    X.pipe(iter.next(), Result.map(Definitions.castIterator))
   let inner = _nextInnerIter()
 
   return Constructors.create(() => {
@@ -90,7 +104,7 @@ const flatMap = <A, B>(fn: (value: A) => IteratorLike<B>) =>
 
 const concat = <T>(other: IteratorLike<T>) =>
   createIterTransformer((iter: Iterator<T>) => {
-    const otherIter = Definitions.asIterator(other)
+    const otherIter = Definitions.castIterator(other)
     let current = iter
     return Constructors.create(() => {
       let next = current.next()
@@ -118,7 +132,7 @@ const prepend = X.flow(Constructors.single, precat)
 const limit =
   (n: number) =>
   <T>(iterator: IteratorLike<T>): Iterator<T> => {
-    const iter = Definitions.asIterator(iterator)
+    const iter = Definitions.castIterator(iterator)
     let count = 0
     return Constructors.create(() => {
       if (count >= n) {
