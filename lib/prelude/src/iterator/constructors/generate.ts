@@ -2,15 +2,15 @@ import { Result } from "../result"
 import { create } from "./create"
 
 type GenerateOptions = {
-  shouldContinue?: () => boolean
+  doWhile?: () => boolean
 }
 
 const GenerateDefaults = {
-  shouldContinue: () => true,
+  doWhile: () => true,
 }
 
 const generate = <T>(fn: () => T, options?: GenerateOptions) => {
-  const { shouldContinue } = { ...GenerateDefaults, ...options }
+  const { doWhile: shouldContinue } = { ...GenerateDefaults, ...options }
   return create(() => (shouldContinue() ? Result.submit(fn()) : Result.stop))
 }
 

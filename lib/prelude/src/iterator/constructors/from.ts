@@ -19,7 +19,7 @@ const from = (start: number, options: FromOptions) => {
       return old
     },
     {
-      shouldContinue: () => end === undefined || current <= end,
+      doWhile: () => end === undefined || current <= end,
     },
   )
 }

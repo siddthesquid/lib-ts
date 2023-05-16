@@ -1,6 +1,5 @@
-import { Result } from "../result"
-import { create } from "./create"
+import { generate } from "./generate"
 
-const empty = create<never>(() => Result.stop)
+const empty = generate(() => undefined, { doWhile: () => false })
 
 export { empty }

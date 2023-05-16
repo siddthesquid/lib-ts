@@ -9,7 +9,7 @@ const constant = <T>(value: T, options: ConstantOptions) => {
   if (count === undefined) return generate(() => value)
   let remaining = count
   return generate(() => value, {
-    shouldContinue: () => {
+    doWhile: () => {
       if (remaining <= 0) return false
       remaining -= 1
       return true

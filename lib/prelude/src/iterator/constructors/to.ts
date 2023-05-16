@@ -20,7 +20,7 @@ const to = (end: number, options: ToOptions) => {
       return old
     },
     {
-      shouldContinue: () => current <= end,
+      doWhile: () => current <= end,
     },
   )
 }

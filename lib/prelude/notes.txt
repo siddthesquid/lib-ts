@@ -189,6 +189,8 @@ Iterator
   flatten
 
   chunk
+  chunkUntil
+  chunkWhile
   prepend
   append
   until
@@ -364,3 +366,9 @@ Ui
   Boxes
 
   Text
+
+  States
+
+  Animations
+
+  Gl
