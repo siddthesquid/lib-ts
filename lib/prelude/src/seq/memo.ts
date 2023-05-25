@@ -45,13 +45,17 @@ const pop = <T>(memo: Memo<T>) => memo.pop()
 
 const hasNext = <T>(memo: Memo<T>) => memo.hasNext()
 
-const replace = <T>(memo: Memo<T>, values: T[]) => memo.replace(values)
+const replace =
+  <T>(values: T[]) =>
+  (memo: Memo<T>) =>
+    memo.replace(values)
 
-const Memo = {
+const _Memo = {
   create,
   pop,
   hasNext,
   replace,
 }
 
-export { Memo }
+export type { Memo }
+export { _Memo }
