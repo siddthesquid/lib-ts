@@ -41,6 +41,7 @@ const construct = <A>(fn: () => IteratorResult<A>): Sequence<A> => {
     }
     const transformedIterator = transform(bufferedIterator)
 
+    // TODO: cleanup
     let result = transformedIterator.next()
     while (!result.done) {
       resultBuffer.push(result.value)
@@ -82,7 +83,8 @@ const castSequence = <A>(value: SequenceLike<A>): Sequence<A> =>
   isSequence(value)
     ? value
     : isIterable(value)
-    ? construct(() => value[Symbol.iterator]().next())
+    ? // TODO: Can this be cleaned up?
+      construct(X.pipe(value[Symbol.iterator](), (iter) => () => iter.next()))
     : construct(value.next)
 
 const reduce =
@@ -102,6 +104,14 @@ const forEach = <A>(fn: (value: A) => any) =>
   reduce<void, A>(undefined, (_, value: A) => {
     fn(value)
   })
+
+const program = X.pipe(
+  [1, 2, 3],
+  castSequence,
+  // forEach(console.log),
+  reduce(0, (sum, value) => sum + value),
+  console.log,
+)
 
 // type Memoizable<T> = {
 //   _memo: Memo<T>
