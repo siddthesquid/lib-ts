@@ -109,7 +109,8 @@ const program = X.pipe(
   [1, 2, 3],
   castSequence,
   // forEach(console.log),
-  reduce(0, (sum, value) => sum + value),
+  // reduce(0, (sum, value) => sum + value),
+  X.tap((x) => x[PEEK]((x) => x)),
   console.log,
 )
 

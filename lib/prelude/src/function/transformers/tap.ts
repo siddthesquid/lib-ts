@@ -1,6 +1,6 @@
 const tap =
-  <T = never>(fn: (value: T) => any) =>
-  <T2 extends Parameters<typeof fn>[0]>(value: T2): T2 => {
+  <T>(fn: (value: T) => any) =>
+  (value: T): T => {
     fn(value)
     return value
   }
