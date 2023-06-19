@@ -85,7 +85,7 @@ const castSequence = <A>(value: SequenceLike<A>): Sequence<A> =>
     : isIterable(value)
     ? // TODO: Can this be cleaned up?
       construct(X.pipe(value[Symbol.iterator](), (iter) => () => iter.next()))
-    : construct(value.next)
+    : construct(() => value.next())
 
 const reduce =
   <State, A>(initial: State, fn: (state: State, value: A) => State) =>
@@ -104,6 +104,11 @@ const forEach = <A>(fn: (value: A) => any) =>
   reduce<void, A>(undefined, (_, value: A) => {
     fn(value)
   })
+
+const collect = <A>(iterator: SequenceLike<A>): A[] => {
+  const sequence = castSequence(iterator)
+  return [...sequence]
+}
 
 const program = X.pipe(
   [1, 2, 3],

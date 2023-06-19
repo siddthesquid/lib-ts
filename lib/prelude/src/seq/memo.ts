@@ -50,12 +50,11 @@ const replace =
   (memo: Memo<T>) =>
     memo.replace(values)
 
-const _Memo = {
+const Memo = {
   create,
   pop,
   hasNext,
   replace,
 }
 
-export type { Memo }
-export { _Memo }
+export { Memo }
