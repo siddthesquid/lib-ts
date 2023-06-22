@@ -23,9 +23,9 @@ const else_ =
     result.done ? fn() : result
 
 const fold =
-  <A, B>(fn: (value: A) => B, elseFn: () => B) =>
+  <A, B>(fn: (value: A) => B, elseFn: B) =>
   (result: IteratorResult<A>): B =>
-    result.done ? elseFn() : fn(result.value)
+    result.done ? elseFn : fn(result.value)
 
 const Result = {
   submit,

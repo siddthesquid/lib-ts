@@ -1,5 +1,5 @@
 import { X } from "../function"
-import { Memo, _Memo } from "./memo"
+import { Memo } from "./memo"
 import { Result } from "./result"
 
 const HAS_NEXT: unique symbol = Symbol("hasNext")
@@ -12,7 +12,7 @@ type Sequence<A> = Iterator<A> &
   }
 
 const construct = <A>(fn: () => IteratorResult<A>): Sequence<A> => {
-  const memo = _Memo.create<A>()
+  const memo = Memo.create<A>()
 
   const hasNext = () => {
     if (memo.hasNext()) {
@@ -48,7 +48,7 @@ const construct = <A>(fn: () => IteratorResult<A>): Sequence<A> => {
       result = transformedIterator.next()
     }
 
-    _Memo.replace(memoBuffer)(memo)
+    Memo.replace(memoBuffer)(memo)
     return resultBuffer
   }
 
