@@ -42,8 +42,10 @@ Sequence
 
   --- Transformers ---
 
-  removed
+  advanced
   chain
+  else
+  pad
 
   id
 
@@ -51,7 +53,7 @@ Sequence
   filter
   flatMap
   flatten
-  pad
+  scan
 
   concat
   concatMany
