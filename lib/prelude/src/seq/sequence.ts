@@ -34,8 +34,9 @@ Sequence
 
   create
   generate
+  do
   constant
-  count
+  range
   empty
   unit
   try
@@ -46,6 +47,8 @@ Sequence
   chain
   else
   pad
+  masked
+  patched
 
   id
 
