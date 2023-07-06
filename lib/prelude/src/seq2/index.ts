@@ -1,6 +1,6 @@
 import { X } from "../function"
+import { Result } from "../seq/result"
 import { Memo } from "./memo"
-import { Result } from "./result"
 
 const HAS_NEXT: unique symbol = Symbol("hasNext")
 const PEEK: unique symbol = Symbol("peek")
