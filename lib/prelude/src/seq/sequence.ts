@@ -49,6 +49,7 @@ Sequence
   pad
   masked
   patched
+  extract
 
   id
 

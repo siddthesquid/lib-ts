@@ -28,7 +28,7 @@ const create = <T>(): Cache<T> => {
 
   const push = buffer.push
 
-  const withPeeker = (fn: (peeker: Iterator<T>) => void) => {
+  const withPeeker = (fn: (peeker: Iterator<T>) => unknown) => {
     const peeker = (): Iterator<T> => {
       let localIndex = nextIndex
       return {
