@@ -8,8 +8,6 @@ import { Struct } from "./struct"
 
 import { Err } from "./error"
 
-import { Bool } from "./bool"
-
 import { Iter } from "./iterator"
 
-export { X, Prom, Tuple, Struct, Err, Bool, Iter }
+export { X, Prom, Tuple, Struct, Err, Iter }

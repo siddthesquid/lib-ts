@@ -1,7 +1,7 @@
 import { as } from "./as"
+import { closure } from "./closure"
 import { declare } from "./declare"
 import { id } from "./id"
-import { stateful } from "./stateful"
 import { sync } from "./sync"
 
 const Constructors = {
@@ -9,7 +9,7 @@ const Constructors = {
   id,
   sync,
   declare,
-  stateful,
+  closure,
 }
 
 export { Constructors }

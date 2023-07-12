@@ -2,7 +2,7 @@ import { Result } from "./result"
 
 type Cache<T> = Iterator<T> &
   Iterable<T> & {
-    isEmpty: () => boolean
+    hasNext: () => boolean
     push: (...items: T[]) => void
     withPeeker: (fn: (peeker: Iterator<T>) => void) => void
   }
@@ -24,7 +24,7 @@ const create = <T>(): Cache<T> => {
     return Result.submit(value)
   }
 
-  const isEmpty = () => _size() === 0
+  const hasNext = () => _size() >= 0
 
   const push = buffer.push
 
@@ -47,7 +47,7 @@ const create = <T>(): Cache<T> => {
 
   return {
     next,
-    isEmpty,
+    hasNext,
     push,
     withPeeker,
     [Symbol.iterator]: () => ({
